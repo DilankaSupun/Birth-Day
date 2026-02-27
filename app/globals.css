@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+:root {
+  --blue-dark: #0a0e1a;
+  --blue-deep: #0d1b2a;
+  --blue-mid: #1b2838;
+  --blue-accent: #4a9eff;
+  --blue-glow: #6db3f8;
+  --blue-soft: #a8d4ff;
+  --pink-soft: #ff6b9d;
+  --gold: #ffd700;
+  --white-soft: #e8f0ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-deep) 50%, #0f1729 100%);
+  color: var(--white-soft);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Typography */
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-dancing {
+  font-family: 'Dancing Script', cursive;
+}
+
+/* Glow effects */
+.text-glow {
+  text-shadow: 0 0 10px var(--blue-accent), 0 0 20px rgba(74, 158, 255, 0.5), 0 0 40px rgba(74, 158, 255, 0.3);
+}
+
+.text-glow-strong {
+  text-shadow: 0 0 10px var(--blue-accent), 0 0 30px var(--blue-glow), 0 0 60px rgba(74, 158, 255, 0.5), 0 0 100px rgba(74, 158, 255, 0.3);
+}
+
+.text-glow-pink {
+  text-shadow: 0 0 10px var(--pink-soft), 0 0 20px rgba(255, 107, 157, 0.5), 0 0 40px rgba(255, 107, 157, 0.3);
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 10px var(--gold), 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.3);
+}
+
+/* Button glow */
+.btn-glow {
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(109, 179, 248, 0.1) 100%);
+  border: 1px solid rgba(74, 158, 255, 0.4);
+  color: var(--blue-soft);
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn-glow:active {
+  border-color: var(--blue-accent);
+  box-shadow: 0 0 20px rgba(74, 158, 255, 0.3), 0 0 40px rgba(74, 158, 255, 0.1);
+  transform: scale(0.97);
+}
+
+/* Animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes heart-float {
+  0% {
+    transform: translateY(100vh) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+    transform: translateY(90vh) rotate(10deg) scale(1);
+  }
+
+  90% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-10vh) rotate(45deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes neon-pulse {
+
+  0%,
+  100% {
+    text-shadow: 0 0 10px var(--blue-accent), 0 0 20px var(--blue-accent), 0 0 40px var(--blue-accent), 0 0 80px var(--blue-accent);
+  }
+
+  50% {
+    text-shadow: 0 0 5px var(--blue-accent), 0 0 10px var(--blue-accent), 0 0 20px var(--blue-accent), 0 0 40px var(--blue-accent);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--blue-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 158, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 158, 255, 0.5);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .btn-glow {
+    padding: 14px 32px;
+    font-size: 1rem;
+  }
+}
