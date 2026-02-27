@@ -59,8 +59,6 @@ export default function BirthdayPage() {
     const handleYesClick = () => {
         playCelebration();
         fireConfetti();
-        setTimeout(() => fireConfetti(), 800);
-        setTimeout(() => fireConfetti(), 1800);
         setPhase('birthday');
         // Start happy birthday melody after short delay
         setTimeout(() => {
@@ -123,13 +121,11 @@ export default function BirthdayPage() {
         'Us is permanent. 💙',
     ];
 
-    // Continuous confetti on birthday phase
+    // Single extra confetti burst when birthday phase starts
     useEffect(() => {
         if (phase !== 'birthday') return;
-        const interval = setInterval(() => {
-            fireConfetti();
-        }, 3000);
-        return () => clearInterval(interval);
+        const t = setTimeout(() => fireConfetti(), 1500);
+        return () => clearTimeout(t);
     }, [phase, fireConfetti]);
 
     return (
@@ -493,7 +489,7 @@ export default function BirthdayPage() {
             {/* Continuous floating flakes on birthday + finale */}
             {(phase === 'birthday' || phase === 'finale') && (
                 <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 1 }}>
-                    {[...Array(20)].map((_, i) => (
+                    {[...Array(8)].map((_, i) => (
                         <motion.div
                             key={i}
                             initial={{ y: 0, opacity: 0 }}
@@ -585,11 +581,9 @@ function CakeWithCandles({ blown, isBlowing }: { blown: boolean; isBlowing: bool
                             style={{
                                 width: '10px',
                                 height: '40px',
-                                background: `linear-gradient(180deg, ${
-                                    ['#ff6b9d', '#4a9eff', '#ffd700', '#a8d4ff', '#ff9f43'][i]
-                                } 0%, ${
-                                    ['#c0396a', '#2a6ab0', '#d4900a', '#4a7aaa', '#d4700a'][i]
-                                } 100%)`,
+                                background: `linear-gradient(180deg, ${['#ff6b9d', '#4a9eff', '#ffd700', '#a8d4ff', '#ff9f43'][i]
+                                    } 0%, ${['#c0396a', '#2a6ab0', '#d4900a', '#4a7aaa', '#d4700a'][i]
+                                    } 100%)`,
                                 borderRadius: '3px 3px 2px 2px',
                                 boxShadow: blown ? 'none' : `0 0 8px ${['#ff6b9d88', '#4a9eff88', '#ffd70088', '#a8d4ff88', '#ff9f4388'][i]}`,
                                 transition: 'box-shadow 0.5s ease',
