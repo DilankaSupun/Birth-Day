@@ -456,7 +456,7 @@ export default function BirthdayPage() {
                                         letterSpacing: '1px',
                                     }}
                                 >
-                                    (tap &ldquo;I love you&rdquo; 3 times for a secret ✨)
+                                    (tap &ldquo;Happy Birthday&rdquo; 3 times for a secret ✨)
                                 </p>
                             </motion.div>
                         </motion.div>
