@@ -396,10 +396,10 @@ export default function DistancePage() {
                     transition={{ delay: 3, duration: 0.8 }}
                 >
                     <button
-                        className="btn-glow"
+                        className={`btn-glow${hasHeld ? ' shake-chest' : ''}`}
                         onClick={() => { playWhoosh(); router.push('/letter'); }}
                     >
-                        💝 Open My Heart
+                        💝 Something in my heart!
                     </button>
                 </motion.div>
             </div>
