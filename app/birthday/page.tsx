@@ -225,6 +225,8 @@ export default function BirthdayPage() {
                                     lineHeight: 1.4,
                                 }}
                             >
+                                Before that Tell
+                                <br />
                                 Do You Still Choose Me? 💙
                             </motion.h2>
 
