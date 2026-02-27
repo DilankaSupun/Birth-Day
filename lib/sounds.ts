@@ -118,7 +118,7 @@ export function playHeartbeat() {
             osc.frequency.setValueAtTime(i === 0 ? 80 : 60, now + delay);
             osc.frequency.exponentialRampToValueAtTime(40, now + delay + 0.15);
 
-            gain.gain.setValueAtTime(i === 0 ? 0.15 : 0.1, now + delay);
+            gain.gain.setValueAtTime(i === 0 ? 0.3 : 0.2, now + delay);
             gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.2);
 
             osc.start(now + delay);
