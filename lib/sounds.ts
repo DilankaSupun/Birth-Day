@@ -250,3 +250,76 @@ export function playEnvelopeOpen() {
         console.log('Audio not available:', e);
     }
 }
+
+// Happy Birthday melody — full song, synthesized piano-like tone
+export function playHappyBirthday(): () => void {
+    const oscillators: OscillatorNode[] = [];
+    try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime + 0.1;
+
+        // Note frequencies (Hz)
+        const NOTE: Record<string, number> = {
+            C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23,
+            G4: 392.00, A4: 440.00, B4: 493.88,
+            C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46,
+            G5: 783.99, A5: 880.00,
+        };
+
+        // Happy Birthday melody: [note, duration in beats]
+        // Tempo: ~100 bpm → 1 beat = 0.6s
+        const BPM = 100;
+        const BEAT = 60 / BPM;
+        const song: [string, number][] = [
+            ['G4', 0.75], ['G4', 0.25], ['A4', 1], ['G4', 1], ['C5', 1], ['B4', 2],
+            ['G4', 0.75], ['G4', 0.25], ['A4', 1], ['G4', 1], ['D5', 1], ['C5', 2],
+            ['G4', 0.75], ['G4', 0.25], ['G5', 1], ['E5', 1], ['C5', 1], ['B4', 1], ['A4', 2],
+            ['F5', 0.75], ['F5', 0.25], ['E5', 1], ['C5', 1], ['D5', 1], ['C5', 3],
+        ];
+
+        let t = now;
+        song.forEach(([note, beats]) => {
+            const freq = NOTE[note];
+            const dur = beats * BEAT;
+
+            // Triangle oscillator (body of the note)
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0, t);
+            gain.gain.linearRampToValueAtTime(0.12, t + 0.02);
+            gain.gain.setValueAtTime(0.1, t + dur * 0.7);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.95);
+            osc.start(t);
+            osc.stop(t + dur);
+            oscillators.push(osc);
+
+            // Sine oscillator (harmonic shimmer)
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(freq * 2, t);
+            gain2.gain.setValueAtTime(0.03, t);
+            gain2.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.8);
+            osc2.start(t);
+            osc2.stop(t + dur);
+            oscillators.push(osc2);
+
+            t += dur;
+        });
+    } catch (e) {
+        console.log('Audio not available:', e);
+    }
+
+    // Return a stop function so the page can clean up
+    return () => {
+        oscillators.forEach((o) => {
+            try { o.stop(); } catch (_) { /* already stopped */ }
+        });
+    };
+}

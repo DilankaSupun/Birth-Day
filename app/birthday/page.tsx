@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StarBackground from '@/components/StarBackground';
 import { useConfetti } from '@/components/ConfettiEffect';
-import { playCelebration, playDodge, playSparkle, playWhoosh, playSoftClick } from '@/lib/sounds';
+import { playCelebration, playDodge, playSparkle, playWhoosh, playSoftClick, playHappyBirthday } from '@/lib/sounds';
 
 export default function BirthdayPage() {
     const [phase, setPhase] = useState<'intro' | 'game' | 'finale'>('intro');
@@ -13,6 +13,21 @@ export default function BirthdayPage() {
     const [yesClicked, setYesClicked] = useState(false);
     const [easterEgg, setEasterEgg] = useState(false);
     const [yesScale, setYesScale] = useState(1);
+
+    // Play Happy Birthday melody when page loads — pause bg music first
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            // Pause Perfect song
+            window.__pauseBgMusic?.();
+            playHappyBirthday();
+            // Resume bg music after melody finishes (~14 seconds)
+            const resumeTimer = setTimeout(() => {
+                window.__resumeBgMusic?.();
+            }, 14000);
+            return () => clearTimeout(resumeTimer);
+        }, 800);
+        return () => clearTimeout(timer);
+    }, []);
     const [tapCount, setTapCount] = useState(0);
     const fireConfetti = useConfetti();
 
@@ -129,7 +144,7 @@ export default function BirthdayPage() {
                         }}
                     >
                         <p className="font-dancing" style={{ fontSize: 'clamp(1.2rem, 4vw, 1.5rem)', color: '#6db3f8' }}>
-                            You&apos;re my favorite dream, Bubu 💙
+                            I Love You, My Queen 💙
                         </p>
                     </motion.div>
                 )}
@@ -430,7 +445,7 @@ export default function BirthdayPage() {
                                             color: '#6db3f8',
                                         }}
                                     >
-                                        I love you, Bubu 💙
+                                        Happy Birthday Manika 💙
                                     </p>
                                 </motion.div>
                                 <p

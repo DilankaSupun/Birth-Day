@@ -117,20 +117,30 @@ export default function LoveCounter() {
                 </p>
             </motion.div>
 
-            <motion.p
+            <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2, duration: 1 }}
-                className="font-dancing"
-                style={{
-                    fontSize: 'clamp(1.2rem, 3vw, 1.8rem)',
-                    color: '#6db3f8',
-                    marginTop: '40px',
-                    fontStyle: 'italic',
-                }}
+                style={{ marginTop: '40px' }}
             >
-                &ldquo;And I still get butterflies.&rdquo;
-            </motion.p>
+                {['And every second felt like a dream…', 'Because I met you, Bubu.'].map((line, i) => (
+                    <motion.p
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 2 + i * 0.5, duration: 0.8 }}
+                        className="font-dancing"
+                        style={{
+                            fontSize: 'clamp(1rem, 3.5vw, 1.4rem)',
+                            color: i === 1 ? '#6db3f8' : 'rgba(168,212,255,0.6)',
+                            marginTop: i === 0 ? '0' : '8px',
+                            fontStyle: 'italic',
+                        }}
+                    >
+                        {line}
+                    </motion.p>
+                ))}
+            </motion.div>
         </div>
     );
 }

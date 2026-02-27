@@ -1,7 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { playSoftClick } from '@/lib/sounds';
+
+// Allow any page to pause/resume the background music
+declare global {
+    interface Window {
+        __pauseBgMusic?: () => void;
+        __resumeBgMusic?: () => void;
+    }
+}
 
 export default function AudioProvider({ children }: { children: React.ReactNode }) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -24,6 +32,26 @@ export default function AudioProvider({ children }: { children: React.ReactNode 
         audio.addEventListener('error', () => setReady(false));
 
         return () => { audio.pause(); audio.src = ''; };
+    }, []);
+
+    // Expose pause/resume globally
+    useEffect(() => {
+        window.__pauseBgMusic = () => {
+            if (audioRef.current && !audioRef.current.paused) {
+                audioRef.current.pause();
+                setPlaying(false);
+            }
+        };
+        window.__resumeBgMusic = () => {
+            if (audioRef.current && audioRef.current.paused) {
+                audioRef.current.play().catch(() => { });
+                setPlaying(true);
+            }
+        };
+        return () => {
+            delete window.__pauseBgMusic;
+            delete window.__resumeBgMusic;
+        };
     }, []);
 
     // Auto-play on first interaction

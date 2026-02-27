@@ -307,7 +307,7 @@ export default function MemoriesPage() {
                     className="btn-glow"
                     onClick={() => { playWhoosh(); router.push('/birthday'); }}
                 >
-                    🎂 One Last Surprise…
+                    🎂 Something Saying…
                 </button>
             </motion.div>
         </motion.div>

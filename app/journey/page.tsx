@@ -173,9 +173,13 @@ export default function JourneyPage() {
                 <ScrollReveal>
                     <h2
                         className="font-playfair text-glow"
-                        style={{ textAlign: 'center', fontSize: 'clamp(1.5rem, 6vw, 3rem)', marginBottom: '8px' }}
+                        style={{
+                            textAlign: 'center',
+                            fontSize: 'clamp(1.5rem, 6vw, 3rem)',
+                            marginBottom: '8px',
+                        }}
                     >
-                        Our Dream Memories
+                        The Little Things That Made Us, Ours
                     </h2>
                     <p
                         className="font-dancing"
@@ -186,7 +190,7 @@ export default function JourneyPage() {
                             marginBottom: '48px',
                         }}
                     >
-                        Tap each one to feel it again…
+                        Tap each one… find how I feel them 💙
                     </p>
                 </ScrollReveal>
 

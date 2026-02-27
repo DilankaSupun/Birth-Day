@@ -56,7 +56,7 @@ export default function LetterPage() {
                         className="btn-glow"
                         onClick={() => { playWhoosh(); router.push('/memories'); }}
                     >
-                        🎀 There&apos;s One More Thing…
+                        🎀 Some thing in deeper
                     </button>
                 </motion.div>
             </div>

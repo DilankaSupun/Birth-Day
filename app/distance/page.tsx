@@ -14,14 +14,17 @@ export default function DistancePage() {
     const holdTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const heartbeatLoopRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const progressRef = useRef(0);
+    const [beatCount, setBeatCount] = useState(0);
 
     // Continuous heartbeat loop after hold completes — plays until user leaves page
     useEffect(() => {
         if (hasHeld) {
             // Start continuous heartbeat
             playHeartbeat();
+            setBeatCount((c) => c + 1);
             heartbeatLoopRef.current = setInterval(() => {
                 playHeartbeat();
+                setBeatCount((c) => c + 1);
             }, 1800); // heartbeat every 1.8s
         }
 
@@ -55,6 +58,7 @@ export default function DistancePage() {
             // Play heartbeat sound every ~25%
             if (progressRef.current % 25 === 0 && progressRef.current < 100) {
                 playHeartbeat();
+                setBeatCount((c) => c + 1);
             }
 
             if (progressRef.current >= 100) {
@@ -141,35 +145,83 @@ export default function DistancePage() {
                     textAlign: 'center',
                 }}
             >
-                {/* Pulsing heart */}
-                <motion.div
-                    animate={isHolding ? {
-                        scale: [1, 1.2, 0.95, 1.2, 1],
-                    } : hasHeld ? {
-                        scale: [1, 1.15, 0.97, 1.15, 1],
-                    } : {
-                        scale: [1, 1.05, 1],
-                    }}
-                    transition={(isHolding || hasHeld) ? {
-                        duration: isHolding ? 1.2 : 1.8,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                    } : {
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                    }}
-                    style={{
-                        fontSize: 'clamp(3rem, 15vw, 5rem)',
-                        marginBottom: '20px',
-                        filter: (isHolding || hasHeld)
-                            ? 'drop-shadow(0 0 30px rgba(74, 158, 255, 0.8)) drop-shadow(0 0 60px rgba(74, 158, 255, 0.4))'
-                            : 'drop-shadow(0 0 15px rgba(74, 158, 255, 0.4))',
-                        transition: 'filter 0.3s ease',
-                    }}
-                >
-                    💙
-                </motion.div>
+                {/* Heart + Nithya name in one relative wrapper */}
+                <div style={{ position: 'relative', display: 'inline-block', marginBottom: '20px' }}>
+                    {/* Pulsing heart */}
+                    <motion.div
+                        animate={isHolding ? {
+                            scale: [1, 1.2, 0.95, 1.2, 1],
+                        } : hasHeld ? {
+                            scale: [1, 1.15, 0.97, 1.15, 1],
+                        } : {
+                            scale: [1, 1.05, 1],
+                        }}
+                        transition={(isHolding || hasHeld) ? {
+                            duration: isHolding ? 1.2 : 1.8,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        } : {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
+                        style={{
+                            fontSize: 'clamp(3rem, 15vw, 5rem)',
+                            filter: (isHolding || hasHeld)
+                                ? 'drop-shadow(0 0 30px rgba(74, 158, 255, 0.8)) drop-shadow(0 0 60px rgba(74, 158, 255, 0.4))'
+                                : 'drop-shadow(0 0 15px rgba(74, 158, 255, 0.4))',
+                            transition: 'filter 0.3s ease',
+                            display: 'block',
+                        }}
+                    >
+                        💙
+                    </motion.div>
+
+                    {/* Nithya — starts at heart center, grows and falls */}
+                    <AnimatePresence>
+                        {(isHolding || hasHeld) && (
+                            <motion.div
+                                key={beatCount}
+                                initial={{ opacity: 0, scale: 0, y: 0 }}
+                                animate={{
+                                    opacity: [0, 1, 1, 0],
+                                    scale: 1,
+                                    y: 120,
+                                }}
+                                exit={{ opacity: 0 }}
+                                transition={{
+                                    duration: 1.5,
+                                    opacity: { duration: 1.5, times: [0, 0.15, 0.75, 1] },
+                                    scale: { duration: 1.2, ease: [0.2, 0, 0.4, 1] },
+                                    y: { duration: 1.5, ease: 'easeIn' },
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: 0,
+                                    right: 0,
+                                    textAlign: 'center',
+                                    pointerEvents: 'none',
+                                    transformOrigin: 'center top',
+                                }}
+                            >
+                                <span
+                                    className="font-dancing"
+                                    style={{
+                                        fontSize: 'clamp(1.4rem, 5vw, 2rem)',
+                                        color: '#6db3f8',
+                                        whiteSpace: 'nowrap',
+                                        filter: 'drop-shadow(0 0 10px rgba(74,158,255,0.7))',
+                                        fontStyle: 'italic',
+                                        letterSpacing: '2px',
+                                    }}
+                                >
+                                    Nithya 💙
+                                </span>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
 
                 {/* Main text */}
                 <motion.div
